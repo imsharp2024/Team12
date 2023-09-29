@@ -1,4 +1,5 @@
 import supabase
+import os
 import pygame
 
 API_URL = 'https://igvofczanemojilwsmaw.supabase.co'
@@ -9,25 +10,24 @@ supabase_client = supabase.Client(API_URL, API_KEY)
 table_name = 'DatabaseTable'
 
 # columns to recieve data from
-columns_to_select = ['id', 'name']
+columns_to_select = ['name']
+
+' '.join(map(str, columns_to_select))
 
 # query to retrieve data from the table
-query = supabase_client.from_(table_name).select(columns_to_select).order('id', ascending=False)
+query = supabase_client.from_(table_name).select('*').order('id')
 
 # execute query and retrieve the data
+data, count = supabase_client.table('DatabaseTable').insert({"id": 1, "name": "Megan"}).execute()
+data, count = supabase_client.table('DatabaseTable').insert({"id": 2, "name": "Test"}).execute()
+  
 response = query.execute()
-
-# check if query was successful
-if response.status_code == 20:
-    data = response.content['data']
-
-    if data:
-        for row in data:
-            print(row)
-    else:
-        print("No data found in the table.")
+data = response.data
+if data:
+    for row in data:
+        print(row)
 else:
-    print(f"Error: {response.status_code}, {response.error}")
+    print("No data found in the table.")
 
 
 
