@@ -2,13 +2,13 @@ import socket
 
 class UDP:
     def __init__(self):
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         # Server address and port
-        server_address = ('localhost', 7500)
+        self.server_address = ('localhost', 7500)
 
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        server_socket.bind('127.0.0.1', 7501)
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        #self.server_socket.bind('127.0.0.1', 7501)
 
     def client(self):
         while True:
