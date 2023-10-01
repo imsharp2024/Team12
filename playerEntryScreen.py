@@ -1,9 +1,4 @@
 # NOT FINISHED - handing off final visual components to Kierson
-#
-# I added self. in front of client_socket, server_address, and
-# server_socket in UDP.py for udp broadcast of equipmentID to not crash.
-# Not sure if this will cause a future problem with the udp broadcast
-# so I didn't change it in the actual GitHub file
 
 import supabase
 import os
