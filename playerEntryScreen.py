@@ -25,7 +25,8 @@ class playerEntry:
     def findOrCreateUser(self, id):
         # retrieves username from database if it exists based on id
         playerID = id
-
+        
+        # checks to see if id exists and prints a welcome message
         for row in self.data:
             response = row.get("id")
             if response == int(playerID):
@@ -47,7 +48,7 @@ class playerEntry:
         udpObject.client()
 
 
-
+# displays size of window and title 
 size = (1000, 700)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Entry Terminal')
@@ -77,13 +78,14 @@ while running:
    pygame.draw.line(screen, (1,33,00), (650, 100), (650, 560), 2)
 
    pygame.display.flip()
-
+    # telling user to either enter ID or exit 
    if numPlayers < 21:
         player = playerEntry()
         id = input("Enter player ID (or 'exit' to quit): ")
         if id.lower() == 'exit':
             break
         else:
+            # creating user 
             player.findOrCreateUser(id)
             player.udpBroadcast()
             numPlayers += 1
