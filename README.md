@@ -24,3 +24,7 @@ Trello: kekibbee
 project.py contains the code for the splash screen.
 
 main.py links the supabase database table to code.
+
+playerEntryScreen.py is code for the starting screen where a user can enter a player.
+
+UPD.py is code for the udp sockets.
