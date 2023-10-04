@@ -19,6 +19,7 @@ Trello: imsharp
 -------------------------
 Kierson Kibbee
 Trello: kekibbee
+Github: kekibbee
 -------------------------
 
 project.py contains the code for the splash screen.
