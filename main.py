@@ -18,8 +18,8 @@ columns_to_select = ['name']
 query = supabase_client.from_(table_name).select('*').order('id')
 
 # execute query and retrieve the data
-data, count = supabase_client.table('DatabaseTable').insert({"id": 1, "name": "Megan"}).execute()
-data, count = supabase_client.table('DatabaseTable').insert({"id": 2, "name": "Test"}).execute()
+data, count = supabase_client.table('DatabaseTable').insert({"id": 3, "name": "Joe"}).execute()
+data, count = supabase_client.table('DatabaseTable').insert({"id": 5, "name": "Mary"}).execute()
   
 response = query.execute()
 data = response.data
