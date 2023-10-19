@@ -30,6 +30,16 @@ else:
     print("No data found in the table.")
 
 
+player_name = "Player 1"
+player_health = 100
+player_ammo = 50
+game_time = "00:05:30"
+player_team = "Red Team"
+
+PlayActionDisplay.update_display(player_name, player_health, player_ammo, game_time, player_team)
+PlayActionDisplay.render()
+
+
 
 # --- TO IMPLEMENT ---
 # class Model():
