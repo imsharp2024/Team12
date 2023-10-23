@@ -20,22 +20,21 @@ class playerEntry:
         query = supabase_client.from_(table_name).select('*').order('id')
         response = query.execute()
         self.data = response.data
-        found = False
 
     def findOrCreateUser(self, id):
         # retrieves username from database if it exists based on id
         playerID = id
+        found = False
 
         for row in self.data:
             response = row.get("id")
             if response == int(playerID):
                 playerName = row.get("name")
                 print("Welcome back " + playerName + "!")
-                self.found = True
+                found = True
                 break
-
         # asks user for new username and adds user to databaseq
-        if self.found != True:
+        if found != True:
             newUserName = input("Welcome new user! Please enter a username: ")
             supabase_client.table('DatabaseTable').insert({"id": playerID, "name": newUserName}).execute()
 
@@ -53,7 +52,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Entry Terminal')
 numPlayers = 0
 
-# Load the image
+# Load splash screen
 try:
     image = pygame.image.load("splashscreen Large.jpg")
     image = pygame.transform.scale(image, size)
@@ -82,6 +81,8 @@ while running:
         running = False
    pygame.display.flip()
 
+
+# draw player entry screen
 running = True
 while running:
 
