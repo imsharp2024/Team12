@@ -1,60 +1,58 @@
-import supabase
-import os
 import pygame
+import supabase
+import time
+from play_action_display import PlayActionDisplay
+from player_entry_screen import PlayerEntryScreen
+from game_controller import GameController
+from UDP import UDP
 
 API_URL = 'https://igvofczanemojilwsmaw.supabase.co'
 API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlndm9mY3phbmVtb2ppbHdzbWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUxNTEzNzksImV4cCI6MjAxMDcyNzM3OX0.n8jZGrDv0A4cxA2BIZrtV2jIXVqIdCEpjLE2PFg1YWQ'
 supabase_client = supabase.Client(API_URL, API_KEY)
 
-# retrieving data from this table in supabase
-table_name = 'DatabaseTable'
-
-# columns to recieve data from
-columns_to_select = ['name']
-
-' '.join(map(str, columns_to_select))
-
-# query to retrieve data from the table
-query = supabase_client.from_(table_name).select('*').order('id')
-
-# execute query and retrieve the data
-data, count = supabase_client.table('DatabaseTable').insert({"id": 3, "name": "Joe"}).execute()
-data, count = supabase_client.table('DatabaseTable').insert({"id": 5, "name": "Mary"}).execute()
-  
-response = query.execute()
-data = response.data
-if data:
-    for row in data:
-        print(row)
-else:
-    print("No data found in the table.")
-
-
-player_name = "Player 1"
-player_health = 100
-player_ammo = 50
-game_time = "00:05:30"
-player_team = "Red Team"
-
-PlayActionDisplay.update_display(player_name, player_health, player_ammo, game_time, player_team)
-PlayActionDisplay.render()
-
-
-
-# --- TO IMPLEMENT ---
-# class Model():
-#     def __init__(self):
-
-# class View():
-#     def __init__(self, model):
-
-# class Controller():
-#     def __init__(self, model, view):
-
+# Initialize Pygame
 pygame.init()
-# m = Model()
-# v = View(m)
-# c = Controller(m,v)
 
-# close supabase client at end of code
-#supabase_client.close()
+# Set up screen dimensions
+screen_size = (1000, 700)
+screen = pygame.display.set_mode(screen_size)
+pygame.display.set_caption('Laser Tag Game')
+
+# Create an instance of PlayActionDisplay
+play_action_display = PlayActionDisplay(screen, "", 100, 50, "00:05:30", "Red Team")
+
+# Initialize UDP object
+udp = UDP()
+
+# Display splash screen for 3 seconds
+splash_image = pygame.image.load("images/splashscreen_large.jpg")
+splash_image = pygame.transform.scale(splash_image, screen_size)
+screen.blit(splash_image, (0, 0))
+pygame.display.flip()
+time.sleep(3)
+
+# Create an instance of PlayerEntryScreen
+entry_screen = PlayerEntryScreen(screen)
+
+# Create an instance of GameController
+game_controller = GameController(entry_screen)
+
+# Main game loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            entry_screen.handle_key_event(event)
+
+    entry_screen.draw_screen()
+    pygame.display.flip()
+    pygame.time.delay(10)  # Add a small delay to reduce CPU usage
+
+
+    entry_screen.draw_screen()
+    pygame.display.flip()
+
+# Close supabase client at the end of code
+pygame.quit()
