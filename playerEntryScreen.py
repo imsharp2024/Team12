@@ -4,6 +4,7 @@ import pygame
 import sys
 import time
 import UDP
+from play_action_display import PlayActionDisplay
 
 pygame.init()
 API_URL = 'https://igvofczanemojilwsmaw.supabase.co'
@@ -70,6 +71,18 @@ class playerEntryScreen:
             self.current_entry_index = (self.current_entry_index + 1) % 20
             self.current_entry_type = "name"
 
+    def start_game(self):
+        print("start game")
+        self.play_action_display = PlayActionDisplay(self.screen, self.redPlayers, self.greenPlayers, 0, 0)
+        running = True
+        while running:
+            for event in pygame.event.get():
+               if event.type == pygame.QUIT:
+                  running = False
+               elif event.type == pygame.KEYDOWN:
+                  running = False
+            self.play_action_display.render()
+            pygame.display.flip()
 
    # Handle key events
     def keyEvents(self, event):
@@ -81,7 +94,7 @@ class playerEntryScreen:
       elif event.key == pygame.K_RETURN:
          self.current_team = "GREEN" if self.current_team == "RED" else "RED"
       elif event.key == pygame.K_F5:
-         pass #ISABELLE'S CODE
+         self.start_game()
       elif event.key == pygame.K_F12:
          self.deleteAllPlayers()
       elif event.type == pygame.KEYDOWN:
