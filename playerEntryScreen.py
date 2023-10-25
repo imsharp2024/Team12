@@ -28,25 +28,29 @@ class playerEntryScreen:
         self.current_entry_type = "name"
 
     # retrieves username from database if it exists based on id
-    def findOrCreateUser(self, color, index):
+    def findOrCreateUser(self):
         found = False
-      #   if color == "RED":
-      #       name = self.redPlayers[index]["name"]
-      #       id = self.redPlayers[index]["name"]
-      #   elif color == "GREEN":
-      #       name = self.greenPlayers[index]["name"]
-      #       id = self.greenPlayers[index]["name"]
+        if self.current_team == "RED":
+            name = self.redPlayers[self.current_entry_index]["name"]
+            id = self.redPlayers[self.current_entry_index]["id"]
+            print(name, id)
+        elif self.current_team == "GREEN":
+            name = self.greenPlayers[self.current_entry_index]["name"]
+            id = self.greenPlayers[self.current_entry_index]["id"]
 
-      #   for row in self.data:
-      #       response = row.get("id")
-      #       if response == int(id):
-      #           name = row.get("name")
-      #           print("Welcome back " + name + "!")
-      #           found = True
-      #           break
-      #   if found != True:
-      #       print("Welcome new player!")
-      #       supabase_client.table('DatabaseTable').insert({"id": id, "name": name}).execute()
+        try:
+            for row in self.data:
+               response = row.get("id")
+               if response == int(id):
+                  name = row.get("name")
+                  print("Welcome back " + name + "!")
+                  found = True
+                  break
+            if found != True:
+                  print("Welcome new player!")
+                  supabase_client.table('DatabaseTable').insert({"id": id, "name": name}).execute()
+        except:
+            print("Invalid ID number")
 
     # udp broadcasts player entered equipment id
     def udpBroadcast(self, id):
@@ -63,18 +67,17 @@ class playerEntryScreen:
         if self.current_entry_type == "name":
             self.current_entry_type = "id"
         else:
-            self.current_entry_index = (self.current_entry_index + 1) % 15
+            self.current_entry_index = (self.current_entry_index + 1) % 20
             self.current_entry_type = "name"
 
 
    # Handle key events
     def keyEvents(self, event):
       if event.key == pygame.K_TAB:
+         if self.current_entry_type == "id":
+            self.findOrCreateUser()
          self.move_to_next_entry()
-         if self.current_team == "RED":
-            self.findOrCreateUser(self.current_team, self.redPlayers[self.current_entry_index])
-         elif self.current_team == "GREEN":
-            self.findOrCreateUser(self.current_team, self.greenPlayers[self.current_entry_index])
+
       elif event.key == pygame.K_RETURN:
          self.current_team = "GREEN" if self.current_team == "RED" else "RED"
       elif event.key == pygame.K_F5:
@@ -177,7 +180,12 @@ class playerEntryScreen:
       font = pygame.font.Font(None, 25)
       for i in range(0,12):
          if i not in [3,5,8,10]:
-            text = font.render('F'+str(i), True, (48, 245, 49))
+            text = font.render('F'+str(i+1), True, (48, 245, 49))
             self.screen.blit(text, (i*83+30, 620))
             pygame.draw.rect(self.screen, (217, 217, 217), pygame.Rect(i*83, 590, 83, 110), 1)
+            if i == 11:
+               text = font.render("Clear", True, (48, 245, 49))
+               self.screen.blit(text, (i*83+20, 645))
+               text = font.render("Game", True, (48, 245, 49))
+               self.screen.blit(text, (i*83+20, 660))
 
