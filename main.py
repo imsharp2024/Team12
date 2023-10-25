@@ -3,7 +3,6 @@ import supabase
 import time
 from play_action_display import PlayActionDisplay
 from player_entry_screen import PlayerEntryScreen
-from game_controller import GameController
 from UDP import UDP
 
 API_URL = 'https://igvofczanemojilwsmaw.supabase.co'
@@ -19,7 +18,7 @@ screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption('Laser Tag Game')
 
 # Create an instance of PlayActionDisplay
-play_action_display = PlayActionDisplay(screen, "", 100, 50, "00:05:30", "Red Team")
+play_action_display = PlayActionDisplay(screen, 0, 0, 0, 0)
 
 # Initialize UDP object
 udp = UDP()
@@ -33,9 +32,6 @@ time.sleep(3)
 
 # Create an instance of PlayerEntryScreen
 entry_screen = PlayerEntryScreen(screen)
-
-# Create an instance of GameController
-game_controller = GameController(entry_screen)
 
 # Main game loop
 running = True
