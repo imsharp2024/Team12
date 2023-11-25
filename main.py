@@ -1,6 +1,7 @@
 import pygame
 import supabase
 import time
+import pygame.mixer
 from play_action_display import PlayActionDisplay
 from player_entry_screen import PlayerEntryScreen
 from UDP import UDP
@@ -11,6 +12,7 @@ supabase_client = supabase.Client(API_URL, API_KEY)
 
 # Initialize Pygame
 pygame.init()
+pygame.mixer.init()
 
 # Set up screen dimensions
 screen_size = (1000, 700)
@@ -22,6 +24,16 @@ play_action_display = PlayActionDisplay(screen, 0, 0, 0, 0)
 
 # Initialize UDP object
 udp = UDP()
+
+# load music tracks 
+music_tracks = ["Track01.mp3", "Track02.mp3", "Track03.mp3", "Track04.mp3", "Track05.mp3", "Track06.mp3", "Track07.mp3", "Track08.mp3"]
+
+# Play music 
+for track in music_tracks:
+    pygame.mixer.music.load(track)
+    pygame.mixer.music.play(-1) # loops the track indefinitely until stopped
+    while pygame.mixer.music.get_busy():
+        pygame.time.Clock().tick(10) # tick rate every 10 milisec to check if music has stopped playing
 
 # Display splash screen for 3 seconds
 splash_image = pygame.image.load("images/splashscreen_large.jpg")
