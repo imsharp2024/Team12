@@ -90,17 +90,24 @@ class playerEntryScreen:
          if self.current_entry_type == "id":
             self.findOrCreateUser()
          self.move_to_next_entry()
-
+         #print(self.current_entry_index, " ", self.current_team)
       elif event.key == pygame.K_RETURN:
-         self.current_team = "GREEN" if self.current_team == "RED" else "RED"
+         self.current_entry_index = 0
+         self.current_entry_type = "name"
+         if self.current_team == "RED":
+            self.current_team = "GREEN" 
+         else:
+            self.current_team = "RED"
+         #print(self.current_entry_index, " ", self.current_team)
       elif event.key == pygame.K_F5:
          self.start_game()
       elif event.key == pygame.K_F12:
          self.deleteAllPlayers()
       elif event.type == pygame.KEYDOWN:
-         if event.unicode.isprintable() and self.current_entry_index < 21:
+         if event.unicode.isprintable() and self.current_entry_index < 16:
             if self.current_team == "RED":
-               if event.key == pygame.K_BACKSPACE:
+               if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                  #print("DELETE")
                   if self.current_entry_type == "name":
                      self.redPlayers[self.current_entry_index]["name"] = self.redPlayers[self.current_entry_index]["name"][:-1]
                   else:
@@ -111,7 +118,7 @@ class playerEntryScreen:
                   else:
                      self.redPlayers[self.current_entry_index]["id"] += event.unicode
             else:
-               if event.key == pygame.K_BACKSPACE:
+               if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                   if self.current_entry_type == "name":
                      self.greenPlayers[self.current_entry_index]["name"] = self.greenPlayers[self.current_entry_index]["name"][:-1]
                   else:
@@ -198,6 +205,11 @@ class playerEntryScreen:
             pygame.draw.rect(self.screen, (217, 217, 217), pygame.Rect(i*83, 590, 83, 110), 1)
             if i == 11:
                text = font.render("Clear", True, (48, 245, 49))
+               self.screen.blit(text, (i*83+20, 645))
+               text = font.render("Game", True, (48, 245, 49))
+               self.screen.blit(text, (i*83+20, 660))
+            elif i == 4:
+               text = font.render("Start", True, (48, 245, 49))
                self.screen.blit(text, (i*83+20, 645))
                text = font.render("Game", True, (48, 245, 49))
                self.screen.blit(text, (i*83+20, 660))
