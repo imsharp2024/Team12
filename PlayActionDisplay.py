@@ -108,7 +108,10 @@ class PlayActionDisplay:
         self.screen.blit(events_text, events_rect)
 
         # Display the countdown timer in the top right corner
-        timer_label_text = self.font.render("Time:", True, (255, 255, 255))
+        if self.is_initial_countdown:
+            timer_label_text = self.font.render("Warning! Starting in:", True, (255, 255, 255))
+        else:
+            timer_label_text = self.font.render("Timer:", True, (255, 255, 255))
         timer_label_rect = timer_label_text.get_rect(topright=(self.screen.get_width() - 90, 10))
         self.screen.blit(timer_label_text, timer_label_rect)
 
